@@ -624,7 +624,7 @@ class RIBloc extends Bloc<RIEvent, RIState> {
           'ERROR',
           '${event}--${e.toString()}',
         );
-
+        
         emit(ErrorGetMueblesCategoria(errorMessage: e.toString()));
       }
     });

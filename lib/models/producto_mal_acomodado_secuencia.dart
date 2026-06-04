@@ -1,6 +1,6 @@
 class ProductoMalAcomodadoSecuencia {
   final int idBitacora;
-  final int fiSku;
+  final String fiSku;
   final int tramo;
   final int nivel;
   final int secuencia;

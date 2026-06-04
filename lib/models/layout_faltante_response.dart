@@ -5,7 +5,7 @@ class LayoutFaltanteResponse {
   int? fiSegmento;
   int? fiNoCharola;
   int? fiOrden;
-  int? fiSku;
+  String? fiSku;
   int? fiFtes;
   String? producto;
 

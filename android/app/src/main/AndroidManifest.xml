@@ -11,7 +11,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
-            android:name="mx.com.agoconsultores.ri.casaley.MainActivity"
+            android:name="mx.com.agoconsultores.ri.soriana.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""

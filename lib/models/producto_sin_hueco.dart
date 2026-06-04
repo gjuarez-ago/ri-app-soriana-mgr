@@ -1,6 +1,6 @@
 class ProductoSinHueco {
   final int idBitacora;
-  final int fiSku;
+  final String fiSku;
   final String nombreProducto;
   final String upc;
   final String imagen;

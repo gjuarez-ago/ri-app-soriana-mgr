@@ -570,6 +570,8 @@ class _MissingProductsPageState extends State<MissingProductsPage>
                   //   );
                   //   return;
                   //  }
+
+                  print("IMAGEN: ${producto.rutaPublica}");
     
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>

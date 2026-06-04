@@ -3,7 +3,7 @@ class AdyacenciaErrorResponse {
   final int fiPlnIdMod;
   final int fiNoSegmento;
   final int fiNoCharola;
-  final int fiSku;
+  final String fiSku;
   final String fcUPC;
   final String nombreProducto;
   final String rutaPublica;

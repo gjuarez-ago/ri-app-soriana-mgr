@@ -1,4 +1,4 @@
-package mx.com.agoconsultores.ri.casaley
+package mx.com.agoconsultores.ri.soriana
 
 import io.flutter.embedding.android.FlutterActivity
 

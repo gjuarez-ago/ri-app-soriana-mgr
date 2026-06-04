@@ -77,7 +77,7 @@ En Xcode:
 2. Target **Runner** → pestaña **Signing & Capabilities**.
 3. Marca **Automatically manage signing**.
 4. **Team**: selecciona el equipo correspondiente a `F43J4XYW8F` (Ago Consultores).
-5. **Bundle Identifier**: `mx.com.agoconsultores.ri.casaley` (ya está).
+5. **Bundle Identifier**: `mx.com.agoconsultores.ri.soriana` (ya está).
 6. Verifica que aparezca:
    - *Provisioning Profile*: Xcode Managed Profile
    - *Signing Certificate*: Apple Development / Apple Distribution
@@ -94,7 +94,7 @@ Solo la primera vez:
 1. Entra a [https://developer.apple.com/account/resources/identifiers/list](https://developer.apple.com/account/resources/identifiers/list).
 2. **+ → App IDs → App** → Continue.
 3. Description: `Soriana RI Casa Ley`.
-4. Bundle ID (Explicit): `mx.com.agoconsultores.ri.casaley`.
+4. Bundle ID (Explicit): `mx.com.agoconsultores.ri.soriana`.
 5. Capabilities: ninguna especial requerida (no usamos Push, iCloud, etc.).
 6. Continue → Register.
 
@@ -252,7 +252,7 @@ Para referencia, estos cambios ya están en el proyecto y NO necesitas rehacerlo
   - `IPHONEOS_DEPLOYMENT_TARGET = 15.6` en todas las configs (Project + Target)
 - **`ios/Flutter/AppFrameworkInfo.plist`**
   - `MinimumOSVersion = 15.6`
-- **Bundle ID**: `mx.com.agoconsultores.ri.casaley`
+- **Bundle ID**: `mx.com.agoconsultores.ri.soriana`
 - **DEVELOPMENT_TEAM**: `F43J4XYW8F`
 - **Podfile**: `platform :ios, '15.6'`, `use_frameworks!`
 - **Íconos**: completos en `AppIcon.appiconset` incluyendo 1024x1024.
