@@ -18,6 +18,7 @@ import 'package:ago_app/utils/file_cleanup_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:ago_app/utils/image_processing_arguments.dart';
 
 class TakePicturePage extends StatefulWidget {
@@ -109,20 +110,11 @@ Future<void> _handlePick(ImageSource source, int imageNumber) async {
       );
 
       if (pickedFile != null && mounted) {
-        setState(() {
-          final file = File(pickedFile.path);
-          lsOriginal.add(file);
-          
-          if (imageNumber == 1) _image1 = file;
-          if (imageNumber == 2) _image2 = file;
-          if (imageNumber == 3) _image3 = file;
-        });
-
-        WidgetsBinding.instance.addPostFrameCallback((_) => _autoSendImages());
+        await _registerPicked(pickedFile, imageNumber);
       }
     } catch (e) {
       print('Error al abrir cámara trasera: $e');
-      
+
       // Si falla, intentamos de nuevo pero sin forzar (usará la predeterminada del sistema)
       try {
         final pickedFile = await _picker.pickImage(
@@ -130,18 +122,9 @@ Future<void> _handlePick(ImageSource source, int imageNumber) async {
           imageQuality: 90,
           maxWidth: 3000,
         );
-        
-        if (pickedFile != null && mounted) {
-          setState(() {
-            final file = File(pickedFile.path);
-            lsOriginal.add(file);
-            
-            if (imageNumber == 1) _image1 = file;
-            if (imageNumber == 2) _image2 = file;
-            if (imageNumber == 3) _image3 = file;
-          });
 
-          WidgetsBinding.instance.addPostFrameCallback((_) => _autoSendImages());
+        if (pickedFile != null && mounted) {
+          await _registerPicked(pickedFile, imageNumber);
         }
       } catch (e) {
         print('Error al abrir cámara: $e');
@@ -164,18 +147,60 @@ Future<void> _handlePick(ImageSource source, int imageNumber) async {
     );
 
     if (pickedFile != null && mounted) {
-      setState(() {
-        final file = File(pickedFile.path);
-        lsOriginal.add(file);
-        
-        if (imageNumber == 1) _image1 = file;
-        if (imageNumber == 2) _image2 = file;
-        if (imageNumber == 3) _image3 = file;
-      });
-
-      WidgetsBinding.instance.addPostFrameCallback((_) => _autoSendImages());
+      await _registerPicked(pickedFile, imageNumber);
     }
   }
+}
+
+/// Copia la imagen recién capturada del directorio volátil `tmp/` (iOS la
+/// purga sin aviso) a un directorio persistente de la app, y registra esa
+/// copia estable. Evita el `PathNotFoundException` al procesar/enviar.
+Future<void> _registerPicked(XFile pickedFile, int imageNumber) async {
+  final File file;
+  try {
+    file = await _persistPickedFile(pickedFile);
+  } catch (e) {
+    print('Error al guardar la imagen capturada: $e');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No se pudo guardar la imagen, intenta de nuevo'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+    return;
+  }
+
+  if (!mounted) return;
+
+  setState(() {
+    lsOriginal.add(file);
+
+    if (imageNumber == 1) _image1 = file;
+    if (imageNumber == 2) _image2 = file;
+    if (imageNumber == 3) _image3 = file;
+  });
+
+  WidgetsBinding.instance.addPostFrameCallback((_) => _autoSendImages());
+}
+
+Future<File> _persistPickedFile(XFile pickedFile) async {
+  final Directory docsDir = await getApplicationDocumentsDirectory();
+  final Directory captureDir =
+      Directory(p.join(docsDir.path, 'captura_tramos'));
+  if (!await captureDir.exists()) {
+    await captureDir.create(recursive: true);
+  }
+
+  final String fileName =
+      'cap_${DateTime.now().microsecondsSinceEpoch}_${p.basename(pickedFile.path)}';
+  final String destPath = p.join(captureDir.path, fileName);
+
+  // saveTo lee los bytes directamente del XFile (no depende de que el
+  // archivo de tmp siga existiendo en disco al momento de copiar).
+  await pickedFile.saveTo(destPath);
+  return File(destPath);
 }
 
 
