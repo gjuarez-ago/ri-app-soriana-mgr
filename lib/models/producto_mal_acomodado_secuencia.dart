@@ -28,7 +28,7 @@ class ProductoMalAcomodadoSecuencia {
 
     return ProductoMalAcomodadoSecuencia(
       idBitacora: json['idBitacora'] ?? 0,
-      fiSku: json['fiSku'] ?? 0,
+      fiSku: json['fiSku']?.toString() ?? '',
       tramo: json['tramo'] ?? 0,
       nivel: json['nivel'] ?? 0,
       secuencia: json['secuencia'] ?? 0,

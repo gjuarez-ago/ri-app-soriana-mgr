@@ -1932,106 +1932,102 @@ class _SearchPageState extends State<SearchPage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
+        return AlertDialog(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),
           ),
-          child: Container(
-            height: 200.0,
-            width: 200.0,
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+          contentPadding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 0.0),
+          actionsPadding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 20.0),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Icon(Icons.info_outline, size: 50.0, color: Colors.blue),
+              SizedBox(height: 12.0),
+              Text(
+                'Al realizar esta acción se eliminará toda la información del tramo',
+                style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            Row(
               children: <Widget>[
-                const Icon(Icons.info_outline, size: 50.0, color: Colors.blue),
-                const SizedBox(height: 16.0),
-                const Text(
-                  'Al realizar esta acción se eliminará toda la información del tramo',
-                  style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
+                Expanded(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          Colors.blue,
+                          Color.fromARGB(255, 76, 104, 175),
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text(
+                        'Cancelar',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 16.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      width: 110,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Colors.blue,
-                            Color.fromARGB(255, 76, 104, 175),
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: BorderRadius.circular(30.0),
+                const SizedBox(width: 12.0),
+                Expanded(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color.fromARGB(255, 228, 160, 148),
+                          Color.fromARGB(255, 206, 45, 45),
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
                       ),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors
-                              .transparent, // Use transparent as the background color
-
-                          shadowColor: Colors.transparent, // Remove shadow
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        _riBloc?.add(
+                          EventDeleteTramo(
+                            idReconocimiento: request.idReconocimiento,
+                            tramo: request.tramo,
                           ),
-                        ),
-                        onPressed: () {
-                          // Acción al presionar Editar
-                          Navigator.pop(context); // Cerrar el modal
-                        },
-                        child: const Text(
-                          'Cancelar',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                        );
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Eliminar',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color.fromARGB(255, 228, 160, 148),
-                            Color.fromARGB(255, 206, 45, 45),
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      width: 110,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors
-                              .transparent, // Use transparent as the background color
-                          shadowColor: Colors.transparent, // Remove shadow
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          _riBloc?.add(
-                            EventDeleteTramo(
-                              idReconocimiento: request.idReconocimiento,
-                              tramo: request.tramo,
-                            ),
-                          );
-                          Navigator.pop(context); // Cerrar el modal
-                        },
-                        child: const Text(
-                          'Eliminar',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
-          ),
+          ],
         );
       },
     );
   }
+  
 }
+  

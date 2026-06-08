@@ -923,17 +923,17 @@ class _MissingProductsPageState extends State<MissingProductsPage>
     // 3. Datos
    for (final item in list) {
       sheetObject.appendRow([
-        TextCellValue(item.fcCategoriaPln!),
-        TextCellValue(item.fcSubClase!),
-        TextCellValue(item.sku!),
+        TextCellValue(item.fcCategoriaPln ?? ""),
+        TextCellValue(item.fcSubClase ?? ""),
+        TextCellValue(item.sku ?? ""),
         TextCellValue(item.upc ?? ""),
-        TextCellValue(item.nombreProd!  ?? ""),
-        TextCellValue(item.metodoResurtido!),
+        TextCellValue(item.nombreProd ?? ""),
+        TextCellValue(item.metodoResurtido ?? ""),
         IntCellValue(item.existencia),
         TextCellValue(item.esTeorico ? "Sí" : "No"),
         IntCellValue(item.vecesFaltante),
-        TextCellValue(item.fechaAlmacen!),
-        TextCellValue(item.proveedor!),
+        TextCellValue(item.fechaAlmacen ?? ""),
+        TextCellValue(item.proveedor ?? ""),
       ]);
     }
 
