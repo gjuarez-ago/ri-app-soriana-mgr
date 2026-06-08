@@ -12,8 +12,10 @@ import 'bloc/bloc_observer.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocObserver();
-  // Comprobar la actualización antes de correr la app
-  await checkForUpdate();
+  // in_app_update only works on Android (Google Play Core); skip on iOS.
+  if (Platform.isAndroid) {
+    await checkForUpdate();
+  }
   runApp(const MyApp());
 }
 

@@ -1196,10 +1196,9 @@ class RIService {
       '/${Constants.path}/ri/get-constants-api',
     );
 
-    final http.Response response = await http.post(
-      uri,
-      headers: Constants.headersPublic,
-    );
+    final http.Response response = await http
+        .post(uri, headers: Constants.headersPublic)
+        .timeout(const Duration(seconds: 15));
 
     if (response.statusCode == 200) {
       return ConstantsEnviroment.fromJson(json.decode(response.body));
