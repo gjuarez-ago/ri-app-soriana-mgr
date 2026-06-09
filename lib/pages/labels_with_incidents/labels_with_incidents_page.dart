@@ -260,7 +260,7 @@ class LabelCard extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      'SKU:',
+                                      'UPC:',
                                       style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey,

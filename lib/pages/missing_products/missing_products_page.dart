@@ -232,6 +232,13 @@ class _MissingProductsPageState extends State<MissingProductsPage>
               IconButton(
                 icon: Icon(Icons.share),
                 onPressed: () async {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (_) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
                   try {
                     await exportAndShareExcel(listMissingProducts, context);
                   } catch (e, st) {
@@ -253,6 +260,8 @@ class _MissingProductsPageState extends State<MissingProductsPage>
                         ),
                       );
                     }
+                  } finally {
+                    if (context.mounted) Navigator.pop(context);
                   }
                 },
               ),

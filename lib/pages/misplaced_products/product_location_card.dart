@@ -109,16 +109,7 @@ class ProductLocationCard extends StatelessWidget {
           
                               const SizedBox(height: 4),
 
-                              Text(
-                                'SKU: ${product.sku ?? 'Sin información'}',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-          
-                              Visibility(
+Visibility(
                                 visible: false,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,

@@ -79,9 +79,6 @@ class ProductSecuenciaCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        _BadgeInfo(
-                            label: 'SKU', value: product.fiSku.toString()),
-                        const SizedBox(width: 8),
                         _BadgeInfo(label: 'UPC', value: product.upc),
                       ],
                     ),

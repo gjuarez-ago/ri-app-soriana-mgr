@@ -83,16 +83,6 @@ class ProductSinHuecoCard extends StatelessWidget {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.inventory_2_outlined, size: 12, color: Colors.orange),
-                            const SizedBox(width: 4),
-                            Text(
-                              'SKU: ${product.fiSku}',
-                              style: const TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.orange,
-                              ),
-                            ),
                           ],
                         ),
                       )

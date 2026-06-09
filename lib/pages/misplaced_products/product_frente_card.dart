@@ -87,7 +87,7 @@ class ProductFrenteCard extends StatelessWidget {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          'UPC : ${product.upc?.join(', ') ?? 'Sin descripción'}',
+                                          'SKU : ${product.sku ?? 'Sin información'}',
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,
@@ -99,18 +99,6 @@ class ProductFrenteCard extends StatelessWidget {
                                       
                                       const SizedBox(height: 4),
 
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          'SKU : ${product.sku ?? 'Sin información'}',
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
-                                          ),
-                                          softWrap: true,
-                                          overflow: TextOverflow.visible,
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ),

@@ -190,8 +190,6 @@ class _DetailProductSecuenciaState extends State<DetailProductSecuencia> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildInfoBadge('UPC:', widget.product.upc),
-              const SizedBox(width: 20),
-              _buildInfoBadge('SKU:', widget.product.fiSku.toString()),
             ],
           ),
         ],

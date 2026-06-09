@@ -111,6 +111,10 @@ class _MisplacedProductsState extends State<MisplacedProductsPage> {
             height: 1.0,
           ),
         ),
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: const Column(
           children: [
             Text(

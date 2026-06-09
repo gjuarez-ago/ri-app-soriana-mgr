@@ -110,6 +110,23 @@ class _BarCodePageState extends State<BarCodePage>
         child: Stack(
           children: [
             CameraPreview(_cameraController!),
+            Positioned(
+              top: 12,
+              left: 12,
+              child: SafeArea(
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.close, color: Colors.white, size: 24),
+                  ),
+                ),
+              ),
+            ),
             Center(
               child: Stack(
                 alignment: Alignment.center,
