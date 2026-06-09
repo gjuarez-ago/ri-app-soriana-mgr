@@ -232,7 +232,28 @@ class _MissingProductsPageState extends State<MissingProductsPage>
               IconButton(
                 icon: Icon(Icons.share),
                 onPressed: () async {
-                  await exportAndShareExcel(listMissingProducts);
+                  try {
+                    await exportAndShareExcel(listMissingProducts, context);
+                  } catch (e, st) {
+                    debugPrint('exportAndShareExcel ERROR: $e\n$st');
+                    if (context.mounted) {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: const Text('Error al exportar'),
+                          content: SingleChildScrollView(
+                            child: SelectableText('$e\n\n$st'),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Cerrar'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  }
                 },
               ),
           ],
@@ -900,7 +921,7 @@ class _MissingProductsPageState extends State<MissingProductsPage>
     // );
   }
 
- Future<void> exportAndShareExcel(List<FaltanteResponse> list) async {
+ Future<void> exportAndShareExcel(List<FaltanteResponse> list, BuildContext context) async {
     // 1. Crear Excel
     var excel = Excel.createExcel();
     Sheet sheetObject = excel['Sheet1'];
