@@ -227,45 +227,7 @@ class _MissingProductsPageState extends State<MissingProductsPage>
               
             ),
           ),
-          actions: [
-            if (listMissingProducts.isNotEmpty)
-              IconButton(
-                icon: Icon(Icons.share),
-                onPressed: () async {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (_) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                  try {
-                    await exportAndShareExcel(listMissingProducts, context);
-                  } catch (e, st) {
-                    debugPrint('exportAndShareExcel ERROR: $e\n$st');
-                    if (context.mounted) {
-                      showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: const Text('Error al exportar'),
-                          content: SingleChildScrollView(
-                            child: SelectableText('$e\n\n$st'),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text('Cerrar'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  } finally {
-                    if (context.mounted) Navigator.pop(context);
-                  }
-                },
-              ),
-          ],
+          actions: const [],
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(80), 
             child: Container(
@@ -930,12 +892,10 @@ class _MissingProductsPageState extends State<MissingProductsPage>
     // );
   }
 
- Future<void> exportAndShareExcel(List<FaltanteResponse> list, BuildContext context) async {
-    // 1. Crear Excel
+ Future<XFile> buildExcelFile(List<FaltanteResponse> list) async {
     var excel = Excel.createExcel();
     Sheet sheetObject = excel['Sheet1'];
 
-    // 2. Encabezados
     sheetObject.appendRow([
       TextCellValue("Categoría"),
       TextCellValue("Subclase"),
@@ -950,8 +910,7 @@ class _MissingProductsPageState extends State<MissingProductsPage>
       TextCellValue("Proveedor"),
     ]);
 
-    // 3. Datos
-   for (final item in list) {
+    for (final item in list) {
       sheetObject.appendRow([
         TextCellValue(item.fcCategoriaPln ?? ""),
         TextCellValue(item.fcSubClase ?? ""),
@@ -967,16 +926,11 @@ class _MissingProductsPageState extends State<MissingProductsPage>
       ]);
     }
 
-    // 4. Guardar temporalmente
     Directory directory = await getTemporaryDirectory();
     String filePath = "${directory.path}/faltantes.xlsx";
     File(filePath).writeAsBytesSync(excel.save()!);
 
-    // 5. Compartir
-    await Share.shareXFiles(
-      [XFile(filePath)],
-      text: 'Archivo Excel de Faltantes',
-    );
+    return XFile(filePath);
   }
 }
 
@@ -1234,13 +1188,7 @@ class _CardHeader extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  'SKU: ${sku ?? 'Sin descripción'}',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                  ),
-                ),
+              
               ],
             ),
           ),

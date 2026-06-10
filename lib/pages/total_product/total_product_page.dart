@@ -473,7 +473,6 @@ class _TotalProductPageState extends State<TotalProductPage> {
                                     columns: const [
                                       DataColumn(label: Text('Secuencia')),
                                       DataColumn(label: Text('UPC')),
-                                      DataColumn(label: Text('SKU')),
                                       DataColumn(label: Text('Descripción')),
                                     ],
                                     rows: state.response.detalleNivel
@@ -483,10 +482,9 @@ class _TotalProductPageState extends State<TotalProductPage> {
                                           DataCell(
                                               Text(detalle.secuencia.toString())),
                                           DataCell(Text(detalle.upc ??
-                                              'Sin nombre')), // Reemplaza 'detalle.upc' por el campo correcto
-                                          DataCell(Text( detalle.sku == null || detalle.sku == 0 ? '' : detalle.sku.toString())), // Reemplaza 'detalle.sku' por el campo correcto
+                                              'Sin nombre')),
                                           DataCell(Text(detalle.prodName ??
-                                              'Sin nombre')), // Reemplaza 'detalle.descripcion' por el campo correcto
+                                              'Sin nombre')),
                                           // Reemplaza 'detalle.nivel' por el campo correcto
                                         ],
                                       );

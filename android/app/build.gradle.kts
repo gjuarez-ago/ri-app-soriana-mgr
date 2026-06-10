@@ -14,7 +14,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.ri_app_casa_ley"
+    namespace = "mx.com.agoconsultores.ri.soriana"
     compileSdk = flutter.compileSdkVersion
     //ndkVersion = flutter.ndkVersion
     ndkVersion = "27.0.12077973"
