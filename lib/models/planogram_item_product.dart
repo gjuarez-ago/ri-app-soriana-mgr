@@ -1,14 +1,14 @@
 class PlanogramaItemResponse {
   final int idTienda;
   final int idPlanograma;
-  final int fcCategoria;
+  final String fcCategoria;
   final String categoria;
   final String nombrePlanograma;
   final int fiSegmento;
   final int fiNoCharola;
   final int fiFtes;
   final int fiOrden;
-  final int fiSku;
+  final String fiSku;
   final String fcUpc;
   final String prodName;
 
