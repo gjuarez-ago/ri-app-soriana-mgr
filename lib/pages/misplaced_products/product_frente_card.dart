@@ -87,7 +87,7 @@ class ProductFrenteCard extends StatelessWidget {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          'SKU : ${product.sku ?? 'Sin información'}',
+                                          'UPC : ${product.sku ?? 'Sin información'}',
                                           style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,
