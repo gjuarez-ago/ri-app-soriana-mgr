@@ -374,7 +374,7 @@ class SupercitosService {
   Future<SendPictureSupectitosResponse> sendPicturesV1Supercitos(
       SendPicturesSupercitosParams params) async {
 
-    var uri = ApiHelper.buildUri(Constants.apiSUAJEUrl, '/unionImagenes');
+    var uri = Uri.http(Constants.apiSUAJEUrl, '/unionImagenes');
     http.Response? response;
 
         logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: ${params.toJson()} ');

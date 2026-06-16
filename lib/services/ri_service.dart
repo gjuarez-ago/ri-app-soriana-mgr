@@ -559,7 +559,7 @@ class RIService {
   }
 
   Future<SendPictureResponse> sendPictures(SendPictureParams params) async {
-    var uri = ApiHelper.buildUri(Constants.apiBIUrl, '/unionImagenes');
+    var uri = Uri.http(Constants.apiBIUrl, '/unionImagenes');
     http.Response? response;
 
     logService.writeLog(
@@ -607,7 +607,7 @@ class RIService {
   }
 
   Future<SendPictureResponse> sendPicturesV2(SendPictureParamsV2 params) async {
-    var uri = ApiHelper.buildUri(Constants.apiIAUrl, '${Constants.pathIACh}');
+    var uri = Uri.http(Constants.apiIAUrl, '${Constants.pathIACh}');
 
     print(uri);
 
@@ -677,7 +677,7 @@ class RIService {
 
   Future<ResumePicturesResponse> getResumenProducts(
       ResumePicturesParams params) async {
-    var uri = ApiHelper.buildUri(Constants.apiIAUrl, '/ir/recimage');
+    var uri = Uri.http(Constants.apiIAUrl, '/ir/recimage');
 
     logService.writeLog(
         "API-MESSAGE", 'URL: ${uri} PARAMS: ${params.toJson()}');
