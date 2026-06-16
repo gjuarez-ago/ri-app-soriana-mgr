@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ago_app/models/login_response.dart';
+import 'package:ago_app/services/api_helper.dart';
 import 'package:ago_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,7 +11,7 @@ class AuthService {
 
   // ** : Servicio para loguearnos
   Future<LoginResponse> login(String user, String password) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/auth/login',
     );

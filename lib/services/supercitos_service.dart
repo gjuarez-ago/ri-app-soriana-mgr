@@ -11,6 +11,7 @@ import 'package:ago_app/models/supercito_segment_detail.dart';
 import 'package:ago_app/models/supercito_segment_eventos.dart';
 import 'package:ago_app/models/supercito_segment_stats_response.dart';
 import 'package:ago_app/models/supercito_segments_stats_detail_request.dart';
+import 'package:ago_app/services/api_helper.dart';
 import 'package:ago_app/services/log_service.dart';
 import 'package:ago_app/utils/constants.dart';
 import 'dart:convert';
@@ -22,7 +23,7 @@ class SupercitosService {
 
   // Servicio para llamar las tiendas
   Future<List<StoreResponse>> getStoresBySupercitos(String category) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-stores-by-supercitos/${getUser()}/${category}');
 
     logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: user: ${getUser} / category: $category');
@@ -57,7 +58,7 @@ class SupercitosService {
 
   // Servicio para llamar las tiendas
   Future<List<CategoryResponse>> getCategoriesBySupercitos() async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-categories-by-supercitos/${getUser()}');
 
     logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: user: ${getUser} ');
@@ -91,7 +92,7 @@ class SupercitosService {
   // Servicio para llamar las tiendas
   Future<List<FurnitureSupercitosResponse>> getFurnitureBySupercito(
       int store, int idBitacora) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-furniture-supercitos/${store}/${idBitacora}');
 
     logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: idBitacora: ${idBitacora} store: ${store}');
@@ -125,7 +126,7 @@ class SupercitosService {
   // Servicio para llamar las tiendas
   Future<List<SegmentsSupercitos>> getSegmentsBySupercito(
       int piIdRealograma) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-segments-supercitos/${piIdRealograma}/${Constants.enviroment}');
 
     logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: idBitacora: ${piIdRealograma} store: ${Constants.enviroment}');
@@ -160,7 +161,7 @@ class SupercitosService {
     print(idRealograma);
     print(tramo);
 
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/delete-segment-supercitos/$idRealograma/$tramo');
 
     logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: idRealograma: ${idRealograma} tramo: ${tramo}');
@@ -190,7 +191,7 @@ class SupercitosService {
       int idRealograma, int tramo) async {
     print(idRealograma);
 
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/segment-detail-supercito/$idRealograma/$tramo/${Constants.enviroment}');
 
     logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: idRealograma: ${idRealograma} tramo: ${tramo}, constante: ${Constants.enviroment}');
@@ -218,7 +219,7 @@ class SupercitosService {
   Future<FixIssuesResponse> cierreSupercitos(int idRealograma) async {
 
 
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
         Constants.apiUrl, '/${Constants.path}/ri/cierre-supercitos/$idRealograma');
 
     logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: idRealograma: ${idRealograma}');
@@ -249,7 +250,7 @@ class SupercitosService {
   Future<List<SupercitoSegmentEventos>> getEventsSupercito(
       int idTienda, String categoria) async {
     // Cambiamos la URL para incluir idTienda como query parameter
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/supercito-events', // Ruta base sin el parámetro
       {
@@ -289,7 +290,7 @@ class SupercitosService {
 
   Future<SupercitoSegmentStatsResponse> getSegmentsStatsSupercitos(
       int tienda, int idEvento, int idBitacora) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/supercito-segments-stats/${tienda}/${idEvento}/${idBitacora}');
 
         logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: idTienda: ${tienda} categoria: ${idEvento} idBitacora: $idBitacora');
@@ -317,7 +318,7 @@ class SupercitosService {
   Future<List<SupercitoSegmStatsDetail>> getStatsDetails(
       SupercitoSegmentStatsDetailRequest request) async {
 
-    var uri = Uri.http(Constants.apiUrl, '/${Constants.path}/ri/supercito-stats-details');
+    var uri = ApiHelper.buildUri(Constants.apiUrl, '/${Constants.path}/ri/supercito-stats-details');
     
     try {
       // Serializa el objeto `request` a JSON
@@ -373,7 +374,7 @@ class SupercitosService {
   Future<SendPictureSupectitosResponse> sendPicturesV1Supercitos(
       SendPicturesSupercitosParams params) async {
 
-    var uri = Uri.http(Constants.apiSUAJEUrl, '/unionImagenes');
+    var uri = ApiHelper.buildUri(Constants.apiSUAJEUrl, '/unionImagenes');
     http.Response? response;
 
         logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: ${params.toJson()} ');

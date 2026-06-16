@@ -9,8 +9,17 @@ class ApiHelper {
       };
 
   static Uri _uri(String path, {String? baseUrl, Map<String, String>? query}) {
-    return Uri.http(baseUrl ?? Constants.apiUrl, path, query);
+    return Uri.https(baseUrl ?? Constants.apiUrl, path, query);
   }
+
+  /// Construye una URL para la API. Mismo orden de argumentos que `Uri.http`,
+  /// pero centraliza el esquema (https) en un solo lugar.
+  static Uri buildUri(
+    String authority, [
+    String unencodedPath = '',
+    Map<String, dynamic>? queryParameters,
+  ]) =>
+      Uri.https(authority, unencodedPath, queryParameters);
 
   static String _decode(http.Response response) =>
       utf8.decode(response.bodyBytes);

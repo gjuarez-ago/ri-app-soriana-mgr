@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:ago_app/services/api_helper.dart';
 import 'package:ago_app/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class LogService {
   Future<String> writeLog(String level, String message) async {
-    var uri = Uri.http(Constants.apiUrl, '/${Constants.path}/api/logs');
+    var uri = ApiHelper.buildUri(Constants.apiUrl, '/${Constants.path}/api/logs');
 
     try {
       final http.Response response = await http.post(

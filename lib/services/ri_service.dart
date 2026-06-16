@@ -41,6 +41,7 @@ import 'package:ago_app/models/validate_categories.dart';
 import 'package:ago_app/models/validate_ceros_response.dart';
 import 'package:ago_app/models/validate_tramos_request.dart';
 import 'package:ago_app/models/validateceros.dart';
+import 'package:ago_app/services/api_helper.dart';
 import 'package:ago_app/services/log_service.dart';
 import 'package:ago_app/utils/constants.dart';
 import 'dart:convert';
@@ -54,7 +55,7 @@ import '../models/adyacencia_error_response.dart';
 class RIService {
   LogService logService = LogService();
   Future<List<CategoryResponse>> getAllCategories() async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
         Constants.apiUrl, '/${Constants.path}/ri/get-categories/${getUser()}');
 
     final http.Response response = await http.get(
@@ -81,7 +82,7 @@ class RIService {
   }
 
   Future<CategoryResponse> getAllCategoriesByUPC(int store, String upc) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-categories-by-upc/${store}/${upc}');
 
     final http.Response response = await http.get(
@@ -105,7 +106,7 @@ class RIService {
   }
 
   Future<List<StoreResponse>> getStores(String categoryId) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-stores/${categoryId}/${getUser()}');
 
     try {
@@ -141,10 +142,10 @@ class RIService {
     var uri;
 
     if (esSupercito) {
-      uri = Uri.http(Constants.apiUrl,
+      uri = ApiHelper.buildUri(Constants.apiUrl,
           '/${Constants.path}/ri/lista-planogramas-supercitos/${categoryId}');
     } else {
-      uri = Uri.http(Constants.apiUrl,
+      uri = ApiHelper.buildUri(Constants.apiUrl,
           '/${Constants.path}/ri/lista-planogramas/${categoryId}/${store}');
     }
 
@@ -181,7 +182,7 @@ class RIService {
 
   Future<List<StoreResponse>> getStoresIndicadores() async {
     print(getUser());
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-tiendas-indicadores/${getUser()}');
 
     logService.writeLog("API-MESSAGE", 'URL: ${uri} PARAMS: ${getUser()}');
@@ -213,7 +214,7 @@ class RIService {
 
   Future<List<DeparmentsResponse>> getDeptosTienda(
       int storeId, int event) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-deparments/$storeId/$event');
 
     logService.writeLog(
@@ -246,7 +247,7 @@ class RIService {
 
   Future<List<FurnitureResponse>> getMueblesTienda(
       int storeId, int event, String categoria, int bitacora) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-furnitures/$storeId/$event/$categoria/$bitacora');
 
     logService.writeLog("API-MESSAGE",
@@ -279,7 +280,7 @@ class RIService {
 
   Future<List<SegmentIncidentsResponse>> getIncidencias(
       int idReconocimiento, int tramo) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-incidents/$idReconocimiento/$tramo');
 
     logService.writeLog("API-MESSAGE",
@@ -312,7 +313,7 @@ class RIService {
 
   Future<List<FurnitureSegmentResponse>> getSegmentos(
       int idRealograma, String idCategoria) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-segments/$idRealograma/$idCategoria/${Constants.enviroment}');
 
     logService.writeLog("API-MESSAGE",
@@ -345,7 +346,7 @@ class RIService {
 
   Future<List<ProductListResponse>> getProductos(
       int idReconocimiento, int tramo) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-products/$idReconocimiento/$tramo');
 
     logService.writeLog("API-MESSAGE",
@@ -377,7 +378,7 @@ class RIService {
   }
 
   Future<FixIssuesResponse> getFixIssue(String incidencias) async {
-    var uri = Uri.http(Constants.apiUrl, '/${Constants.path}/ri/get-fixissue');
+    var uri = ApiHelper.buildUri(Constants.apiUrl, '/${Constants.path}/ri/get-fixissue');
 
     logService.writeLog(
         "API-MESSAGE", 'URL: ${uri} PARAMS: incidencias; $incidencias');
@@ -407,7 +408,7 @@ class RIService {
 
   Future<FixResponse> fixSingleIssue(FixSingleIssueParams incidencia) async {
     var uri =
-        Uri.http(Constants.apiUrl, '/${Constants.path}/ri/fix-single-issue');
+        ApiHelper.buildUri(Constants.apiUrl, '/${Constants.path}/ri/fix-single-issue');
 
     logService.writeLog("API-MESSAGE",
         'URL: ${uri} PARAMS: idRegistro: ${incidencia.idRegistro}, upc: ${incidencia.upc}');
@@ -438,7 +439,7 @@ class RIService {
 
   Future<List<IncidentsResponse>> getListIncidentsV2(
       GetIssuesParams request) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/incidents/${request.idTienda}/${request.evento}/${request.idCategoria}');
 
     logService.writeLog("API-MESSAGE",
@@ -470,7 +471,7 @@ class RIService {
   Future<FixIssuesResponse> generarIndicadores(GetIssuesParams request) async {
     print("${request.idTienda}/${request.evento}/${request.idCategoria}");
 
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/cierre-categoria/${request.idTienda}/${request.evento}/${request.idCategoria}/${request.idBitacora}');
 
     logService.writeLog("API-MESSAGE",
@@ -499,7 +500,7 @@ class RIService {
   }
 
   Future<int> getStatusIndicadores(GetIssuesParams request) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/estatus-cierre-categoria/${request.idTienda}/${request.evento}/${request.idCategoria}/${request.idBitacora}');
 
     logService.writeLog("API-MESSAGE",
@@ -529,7 +530,7 @@ class RIService {
   }
 
   Future<FixIssuesResponse> cierreTienda(GetIssuesParams request) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/cierre-tienda/${request.idTienda}/${request.evento}/${request.idCategoria}/${request.idBitacora}');
 
     logService.writeLog("API-MESSAGE",
@@ -558,7 +559,7 @@ class RIService {
   }
 
   Future<SendPictureResponse> sendPictures(SendPictureParams params) async {
-    var uri = Uri.http(Constants.apiBIUrl, '/unionImagenes');
+    var uri = ApiHelper.buildUri(Constants.apiBIUrl, '/unionImagenes');
     http.Response? response;
 
     logService.writeLog(
@@ -606,7 +607,7 @@ class RIService {
   }
 
   Future<SendPictureResponse> sendPicturesV2(SendPictureParamsV2 params) async {
-    var uri = Uri.http(Constants.apiIAUrl, '${Constants.pathIACh}');
+    var uri = ApiHelper.buildUri(Constants.apiIAUrl, '${Constants.pathIACh}');
 
     print(uri);
 
@@ -676,7 +677,7 @@ class RIService {
 
   Future<ResumePicturesResponse> getResumenProducts(
       ResumePicturesParams params) async {
-    var uri = Uri.http(Constants.apiIAUrl, '/ir/recimage');
+    var uri = ApiHelper.buildUri(Constants.apiIAUrl, '/ir/recimage');
 
     logService.writeLog(
         "API-MESSAGE", 'URL: ${uri} PARAMS: ${params.toJson()}');
@@ -711,7 +712,7 @@ class RIService {
   }
 
   Future<String> deleteTramo(int idReconocimiento, int tramo) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-deleteSegment/$idReconocimiento/$tramo');
 
     logService.writeLog("API-MESSAGE",
@@ -739,7 +740,7 @@ class RIService {
 
   Future<FurnitureSegmentResponse> getResumeTramo(
       int idReconocimiento, int tramo) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-segmentsummary/$idReconocimiento/$tramo/${Constants.enviroment}');
 
     logService.writeLog("API-MESSAGE",
@@ -767,7 +768,7 @@ class RIService {
 
   Future<List<EventsResponse>> getReporteEventosTiendas(
       GetIssuesParams request) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/reporte-eventos-de-tienda/${request.idTienda}/${request.idCategoria}');
 
     logService.writeLog("API-MESSAGE",
@@ -797,7 +798,7 @@ class RIService {
   }
 
   Future<List<UbicacionResponse>> getLocations() async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/obtener-ubicaciones-encontrado');
 
     logService.writeLog("API-MESSAGE", 'URL: ${uri}');
@@ -829,7 +830,7 @@ class RIService {
     print(
         "/${request.idTienda}/${request.evento}/${request.idCategoria}/${request.idBitacora}");
 
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/reporte-promedio-indicadores/${request.idTienda}/${request.evento}/${request.idCategoria}/${request.idBitacora}');
 
     logService.writeLog("API-MESSAGE",
@@ -860,7 +861,7 @@ class RIService {
 
   Future<String> getImagenByTramo(
       int idReconocimiento, int idRealograma, int tramo) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/analisis-image-tramo/$idReconocimiento/$idRealograma/$tramo');
 
     logService.writeLog("API-MESSAGE",
@@ -886,7 +887,7 @@ class RIService {
 
   Future<List<LayoutFaltanteResponse>> getLayoutProductosFaltantes(
       LayoutFaltantesParams request) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/layout-faltantes/${request.idTienda}/${request.evento}/${request.idCategoria}/${request.idBitacora}/${request.upc}');
 
     logService.writeLog("API-MESSAGE",
@@ -923,7 +924,7 @@ class RIService {
 
   Future<List<FaltanteResponse>> getProductosFaltantes(
       GetIssuesParams request) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/faltantes/${request.idTienda}/${request.evento}/${request.idCategoria}/${request.idBitacora}');
 
     logService.writeLog("API-MESSAGE",
@@ -957,7 +958,7 @@ class RIService {
 
   Future<List<MueblesCategoriaResponse>> getMueblesCategoria(
       GetIssuesParams request, bool esSupercito) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/muebles-categoria/${request.idTienda}/${request.evento}/${request.idCategoria}/${request.idBitacora}',
       {
@@ -997,7 +998,7 @@ class RIService {
 
   Future<List<DetalleNivelResponse>> getDetalleNivel(
       DetalleNivelParams request, bool esSupercito) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/detalle-de-nivel/${request.idRealograma}/${request.tramo}/${request.nivel}',
       {
@@ -1036,7 +1037,7 @@ class RIService {
 
   Future<List<TramosMuebleResponse>> getTramosMueble(
       int idReconocimiento, int idRealograma, bool esSupercito) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/tramos-de-mueble/$idReconocimiento/$idRealograma',
       {
@@ -1076,7 +1077,7 @@ class RIService {
   Future<DetalleNivelConImagen> getDetalleNivelConImagen(
       DetalleNivelParams request, bool esSupercito) async {
     // URL para obtener la imagen
-    var uriImagen = Uri.http(
+    var uriImagen = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/analisis-image-tramo/${request.idReconocimiento}/${request.idRealograma}/${request.tramo}/${Constants.enviroment}',
       {
@@ -1085,7 +1086,7 @@ class RIService {
     );
 
     // URL para obtener el detalle del nivel
-    var uriDetalle = Uri.http(
+    var uriDetalle = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/detalle-de-nivel/${request.idRealograma}/${request.tramo}/${request.nivel}',
       {
@@ -1132,7 +1133,7 @@ class RIService {
 
   Future<CaptureResponse> capturarFaltante(
       CapturarFaltanteParams request) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/capturar-faltante/${request.idTienda}/${request.evento}/${request.categoria}/${request.sku}/${request.idBitacora}/${request.idUbicacion}');
 
     logService.writeLog(
@@ -1163,7 +1164,7 @@ class RIService {
   }
 
   Future<String> getPdfByCategory(String categoria, int tienda) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-planograma-cat/$tienda/$categoria/${Constants.enviroment}');
 
     logService.writeLog("API-MESSAGE",
@@ -1191,7 +1192,7 @@ class RIService {
 
   // ** : Servicio para loguearnos
   Future<ConstantsEnviroment> getParams() async {
-    var uri = Uri.http(
+    var uri = Uri.https(
       Constants.apiUrl,
       '/${Constants.path}/ri/get-constants-api',
     );
@@ -1217,7 +1218,7 @@ class RIService {
 
   Future<List<TiendaLResponse>> getAvanceAuditoria(
       TiendaLRequest request) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-avance-auditoria/${request.idTienda}/${request.dia}');
 
     logService.writeLog("API-MESSAGE",
@@ -1289,7 +1290,7 @@ class RIService {
   }) async {
     print(getUser());
 
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/reporte-mal-acomodados/${idBitacora}',
       {
@@ -1329,7 +1330,7 @@ class RIService {
 
   Future<IncidenciasEtiquetasResponse> getLabelWithIncidents(
       int idBitacora) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/reporte-etiquetas-incidencias/${idBitacora}');
 
     logService.writeLog(
@@ -1362,7 +1363,7 @@ class RIService {
   Future<ConsultasResponse> getValidateCategories(
     ValidateCategories request,
   ) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/validate-categories',
     );
@@ -1400,7 +1401,7 @@ class RIService {
   }
 
   Future<ValidateCerosResponse> getValidateCeros(ValidateCeros request) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/validate-ceros',
     );
@@ -1443,7 +1444,7 @@ class RIService {
   Future<ConsultasResponse> getValidateTramos(
     ValidaTramosRequest request,
   ) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/validate-tramos',
     );
@@ -1486,7 +1487,7 @@ class RIService {
   ) async {
     print('-- params: ${tienda}/ ${upc} -- Too large}');
 
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/get-product-pln/${tienda}/${upc}');
 
     logService.writeLog(
@@ -1525,7 +1526,7 @@ class RIService {
 
   Future<NuevosPlanogramasImplResponse> getImplementationOfPlanograms(
       int idTienda) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/categorias-implementasion-planogramas/${getUser()}/${idTienda}',
     );
@@ -1573,7 +1574,7 @@ class RIService {
   }
 
   Future<bool> setPlanogramaImplementado(int id, int idTienda) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
       Constants.apiUrl,
       '/${Constants.path}/ri/set-implementacion-planograma/${id}/$idTienda',
     );
@@ -1609,7 +1610,7 @@ class RIService {
 
   Future<List<ProductoMalAcomodadoSecuencia>>
       getProductosMalAcomodadosSecuencia(int idBitacora) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/productos-mal-acomodados-secuencia/$idBitacora');
 
     logService.writeLog("API-MESSAGE", 'URL: $uri PARAMS: $idBitacora');
@@ -1646,7 +1647,7 @@ class RIService {
   }
 
   Future<List<ProductoSinHueco>> getProductosSinHuecos(int idBitacora) async {
-    var uri = Uri.http(Constants.apiUrl,
+    var uri = ApiHelper.buildUri(Constants.apiUrl,
         '/${Constants.path}/ri/productos-sin-huecos/$idBitacora');
 
     logService.writeLog("API-MESSAGE", 'URL: $uri PARAMS: $idBitacora');
@@ -1680,7 +1681,7 @@ class RIService {
 
   Future<List<AdyacenciaErrorResponse>> getAdyacenciaError(
       int idBitacora) async {
-    var uri = Uri.http(
+    var uri = ApiHelper.buildUri(
         Constants.apiUrl, '/${Constants.path}/ri/adyacencia-error/$idBitacora');
 
     logService.writeLog("API-MESSAGE", 'URL: $uri PARAMS: $idBitacora');
