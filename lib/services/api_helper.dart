@@ -9,7 +9,7 @@ class ApiHelper {
       };
 
   static Uri _uri(String path, {String? baseUrl, Map<String, String>? query}) {
-    return Uri.https(baseUrl ?? Constants.apiUrl, path, query);
+    return Uri.http(baseUrl ?? Constants.apiUrl, path, query);
   }
 
   /// Construye una URL para la API. Mismo orden de argumentos que `Uri.http`,
