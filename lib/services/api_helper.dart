@@ -19,7 +19,7 @@ class ApiHelper {
     String unencodedPath = '',
     Map<String, dynamic>? queryParameters,
   ]) =>
-      Uri.https(authority, unencodedPath, queryParameters);
+      Uri.http(authority, unencodedPath, queryParameters);
 
   static String _decode(http.Response response) =>
       utf8.decode(response.bodyBytes);
