@@ -32,29 +32,35 @@ class _PdfViewByURLState extends State<PdfViewByURL> {
     }
   }
 
-  /// Codifica únicamente el nombre del archivo de la URL (la parte después
-  /// del último '/'), dejando intacto esquema, host y directorios. Así los
-  /// espacios y caracteres especiales quedan como %20, etc., sin tocar lo que
-  /// ya es válido ni romper si la URL viene de otro formato.
-  Uri _buildPdfUri(String pdfUrl) {
-    final lastSlash = pdfUrl.lastIndexOf('/');
-    if (lastSlash == -1) return Uri.parse(pdfUrl);
-
-    final base = pdfUrl.substring(0, lastSlash + 1);
-    final fileName = pdfUrl.substring(lastSlash + 1);
-    return Uri.parse('$base${Uri.encodeComponent(fileName)}');
-  }
-
   Future<void> downloadAndStorePdf(String pdfUrl) async {
-    final uri = _buildPdfUri(pdfUrl);
-    print('==== URL PDF a descargar: $uri');
+    // ===== DIAGNÓSTICO TEMPORAL =====
+    final sw = Stopwatch()..start();
+    print('==== [PDF] URL original: $pdfUrl');
+
+    // Codificamos solo el nombre del archivo (espacios -> %20, etc.)
+    final lastSlash = pdfUrl.lastIndexOf('/');
+    final uri = lastSlash == -1
+        ? Uri.parse(pdfUrl)
+        : Uri.parse(pdfUrl.substring(0, lastSlash + 1) +
+            Uri.encodeComponent(pdfUrl.substring(lastSlash + 1)));
+    print('==== [PDF] URI codificada: $uri');
+
     try {
       final response = await http.get(
         uri,
         headers: {
           'Authorization': 'Bearer ${Constants.token}', // Agregando el header
         },
+      ).timeout(
+        const Duration(seconds: 60),
+        onTimeout: () =>
+            throw Exception('Timeout 60s -- el servidor no respondió'),
       );
+
+      print('==== [PDF] status: ${response.statusCode} '
+          '| bytes: ${response.bodyBytes.length} '
+          '| content-type: ${response.headers['content-type']} '
+          '| tiempo: ${sw.elapsedMilliseconds}ms');
 
       if (response.statusCode == 200) {
         final dir = await getApplicationDocumentsDirectory();
@@ -69,6 +75,7 @@ class _PdfViewByURLState extends State<PdfViewByURL> {
         throw Exception('Error al descargar el archivo: ${response.statusCode}');
       }
     } catch (e) {
+      print('==== [PDF] EXCEPCIÓN tras ${sw.elapsedMilliseconds}ms: $e');
       setState(() {
         errorMessage = 'No se pudo descargar el PDF. Error: $e';
         isLoading = false;
