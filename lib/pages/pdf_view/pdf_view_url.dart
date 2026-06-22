@@ -32,10 +32,25 @@ class _PdfViewByURLState extends State<PdfViewByURL> {
     }
   }
 
+  /// Codifica únicamente el nombre del archivo de la URL (la parte después
+  /// del último '/'), dejando intacto esquema, host y directorios. Así los
+  /// espacios y caracteres especiales quedan como %20, etc., sin tocar lo que
+  /// ya es válido ni romper si la URL viene de otro formato.
+  Uri _buildPdfUri(String pdfUrl) {
+    final lastSlash = pdfUrl.lastIndexOf('/');
+    if (lastSlash == -1) return Uri.parse(pdfUrl);
+
+    final base = pdfUrl.substring(0, lastSlash + 1);
+    final fileName = pdfUrl.substring(lastSlash + 1);
+    return Uri.parse('$base${Uri.encodeComponent(fileName)}');
+  }
+
   Future<void> downloadAndStorePdf(String pdfUrl) async {
+    final uri = _buildPdfUri(pdfUrl);
+    print('==== URL PDF a descargar: $uri');
     try {
       final response = await http.get(
-        Uri.parse(pdfUrl),
+        uri,
         headers: {
           'Authorization': 'Bearer ${Constants.token}', // Agregando el header
         },
