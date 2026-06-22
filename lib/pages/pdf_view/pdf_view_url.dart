@@ -33,34 +33,19 @@ class _PdfViewByURLState extends State<PdfViewByURL> {
   }
 
   Future<void> downloadAndStorePdf(String pdfUrl) async {
-    // Usamos un Client propio + descarga en streaming para soportar
-    // archivos grandes sin cargarlos completos en memoria. Esto evita el
-    // error "Bad file descriptor" que aparece en iOS cuando el socket
-    // keep-alive se cierra a mitad de una descarga grande.
-    final client = http.Client();
-    IOSink? sink;
     try {
-      final request = http.Request('GET', Uri.parse(pdfUrl))
-        ..headers['Authorization'] = 'Bearer ${Constants.token}';
-
-      final response = await client.send(request).timeout(
-            const Duration(seconds: 60),
-          );
+      final response = await http.get(
+        Uri.parse(pdfUrl),
+        headers: {
+          'Authorization': 'Bearer ${Constants.token}', // Agregando el header
+        },
+      );
 
       if (response.statusCode == 200) {
         final dir = await getApplicationDocumentsDirectory();
-        // Nombre único para no chocar con un PDF abierto previamente.
-        final file = File(
-          '${dir.path}/pdf_${DateTime.now().millisecondsSinceEpoch}.pdf',
-        );
+        final file = File('${dir.path}/temp.pdf');
+        await file.writeAsBytes(response.bodyBytes);
 
-        sink = file.openWrite();
-        await sink.addStream(response.stream);
-        await sink.flush();
-        await sink.close();
-        sink = null;
-
-        if (!mounted) return;
         setState(() {
           pdfFilePath = file.path;
           isLoading = false; // Descarga completa
@@ -69,14 +54,10 @@ class _PdfViewByURLState extends State<PdfViewByURL> {
         throw Exception('Error al descargar el archivo: ${response.statusCode}');
       }
     } catch (e) {
-      if (!mounted) return;
       setState(() {
         errorMessage = 'No se pudo descargar el PDF. Error: $e';
         isLoading = false;
       });
-    } finally {
-      await sink?.close();
-      client.close();
     }
   }
 
