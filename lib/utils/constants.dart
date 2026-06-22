@@ -12,7 +12,7 @@ class Constants {
   static Color appBarEndColor = Colors.blue.shade800;
 
   static String apiUrl =
-      '200.78.251.37:8432'; // Soriana Desarrollo Actualizado 30/10/25
+      'proyectosago.com.mx:83'; // Soriana Desarrollo Actualizado 30/10/25
   // static String apiUrl = '148.245.208.247:8046'; // Soriana QA
   // static String apiUrl = '148.245.208.250:8475';// Soriana Producción
 
@@ -23,7 +23,7 @@ class Constants {
   static String malUbicadosSecuencia = "";
   static String malUbicadosProdSinHuecos = "";
 
-  static String path = "ri-api";
+  static String path = "risorimg/ri-api";
   static String pathSuaje = "";
   static String pathIACh = "";
   static String enviroment = "";
